@@ -1,0 +1,919 @@
+[
+  {
+    "facultyId":"FAC001",
+    "name":"Dr. S S Injaganeri",
+    "branch":"Principal",
+    "email":"principal@sahyadri.edu.in ",
+    "phone":"9448100123"
+  },
+  {
+    "facultyId":"FAC002",
+    "name":"Dr. Mustafa Basthikodi",
+    "branch":"CSE",
+    "email":"mustafa.cs@sahyadri.edu.in",
+    "phone":"9844535720"
+  },
+  {
+    "facultyId":"FAC003",
+    "name":"Dr. M Srinath",
+    "branch":"CSE",
+    "email":"coo@sahyadri.edu.in",
+    "phone":"8884995800"
+  },
+  {
+    "facultyId":"FAC004",
+    "name":"Dr. Ananth Prabhu",
+    "branch":"CSE",
+    "email":"ananthprabhu@sahyadri.edu.in",
+    "phone":"8951511111"
+  },
+  {
+    "facultyId":"FAC005",
+    "name":"Dr. Priya R.Kamath",
+    "branch":"CSE",
+    "email":"priya.cs@sahyadri.edu.in",
+    "phone":"9008544822"
+  },
+  {
+    "facultyId":"FAC006",
+    "name":"Dr. Shreema Shetty",
+    "branch":"CSE",
+    "email":"shreemashetty.cs@sahyadri.edu.in",
+    "phone":"9008420689"
+  },
+  {
+    "facultyId":"FAC007",
+    "name":"Dr. Joyline D'sa",
+    "branch":"CSE",
+    "email":"joyline.cs@sahyadri.edu.in",
+    "phone":"9682800028"
+  },
+  {
+    "facultyId":"FAC008",
+    "name":"Dr. Suhas A Bhyratae",
+    "branch":"CSE",
+    "email":"suhasbhyratae.cs@sahyadri.edu.in",
+    "phone":"9964144346"
+  },
+  {
+    "facultyId":"FAC009",
+    "name":"Dr. Poornima B V",
+    "branch":"CSE",
+    "email":"poornima.cs@sahyadri.edu.in",
+    "phone":"8310671990"
+  },
+  {
+    "facultyId":"FAC010",
+    "name":"Dr. Deepti Rai",
+    "branch":"CSE",
+    "email":"deepti.cs@sahyadri.edu.in",
+    "phone":"6361540712"
+  },
+  {
+    "facultyId":"FAC011",
+    "name":"Mr. Harisha",
+    "branch":"CSE",
+    "email":"harisha.cs@sahyadri.edu.in",
+    "phone":"8762050055"
+  },
+  {
+    "facultyId":"FAC012",
+    "name":"Mr. Srinivas P M",
+    "branch":"CSE",
+    "email":"srinivas.cs@sahyadri.edu.in",
+    "phone":"8548032569\/ 8310318397"
+  },
+  {
+    "facultyId":"FAC013",
+    "name":"Mr. Kishore Kumar",
+    "branch":"CSE",
+    "email":"kishor.cs@sahyadri.edu.in",
+    "phone":"7483287834"
+  },
+  {
+    "facultyId":"FAC014",
+    "name":"Mrs. Suketha",
+    "branch":"CSE",
+    "email":"suketha.cs@sahyadri.edu.in",
+    "phone":"9663158458"
+  },
+  {
+    "facultyId":"FAC015",
+    "name":"Mrs. Vidya V V",
+    "branch":"CSE",
+    "email":"vidyav.cs@sahyadri.edu.in",
+    "phone":"9663584624"
+  },
+  {
+    "facultyId":"FAC016",
+    "name":"Mrs. Srividya S",
+    "branch":"CSE",
+    "email":"srividya.cs@sahyadri.edu.in",
+    "phone":"7016804183\/ 9480503355"
+  },
+  {
+    "facultyId":"FAC017",
+    "name":"Ms. Alakananda K",
+    "branch":"CSE",
+    "email":"alakananda.cs@sahyadri.edu.in",
+    "phone":"8075040013"
+  },
+  {
+    "facultyId":"FAC018",
+    "name":"Ms. Ashwini C S",
+    "branch":"CSE",
+    "email":"ashwini.cs@sahyadri.edu.in",
+    "phone":"9739703337"
+  },
+  {
+    "facultyId":"FAC019",
+    "name":"Ms. Prapulla G",
+    "branch":"CSE",
+    "email":"prapulla.cs@sahyadri.edu.in",
+    "phone":"6363290331"
+  },
+  {
+    "facultyId":"FAC020",
+    "name":"Mr. Raghavendra Sooda",
+    "branch":"CSE",
+    "email":"raghavendrasooda.cs@sahyadri.edu.in",
+    "phone":"9148520154"
+  },
+  {
+    "facultyId":"FAC021",
+    "name":"Mis Chaithra S",
+    "branch":"CSE",
+    "email":"chaithra.cs@sahyadri.edu.in",
+    "phone":"8217632181"
+  },
+  {
+    "facultyId":"FAC022",
+    "name":"Mr. Prajwal Rao",
+    "branch":"CSE",
+    "email":"prajwal.cs@sahyadri.edu.in",
+    "phone":"9110891036"
+  },
+  {
+    "facultyId":"FAC023",
+    "name":"Mrs. Aparna Krishnan",
+    "branch":"CSE",
+    "email":"aparna.cs@sahyadri.edu.in",
+    "phone":"9400741400"
+  },
+  {
+    "facultyId":"FAC024",
+    "name":"Mrs. Srividya Bhat",
+    "branch":"CSE",
+    "email":"srividyabhat.cs@sahyadri.edu.in",
+    "phone":"7022970424"
+  },
+  {
+    "facultyId":"FAC025",
+    "name":"Mrs. Ramitha T",
+    "branch":"CSE",
+    "email":"ramitha.cs@sahyadri.edu.in",
+    "phone":"8281687278"
+  },
+  {
+    "facultyId":"FAC026",
+    "name":"Mrs. Varsha M",
+    "branch":"CSE",
+    "email":"varsha.cs@sahyadri.edu.in",
+    "phone":"9400806397"
+  },
+  {
+    "facultyId":"FAC027",
+    "name":"Mrs. Chaithrashree M",
+    "branch":"CSE",
+    "email":"chaithrashree.cs@sahyadri.edu.in",
+    "phone":"9481758301"
+  },
+  {
+    "facultyId":"FAC028",
+    "name":"Dr. Pushpalatha K",
+    "branch":"AI & ML",
+    "email":"pushpalatha.ai@sahyadri.edu.in",
+    "phone":"9902338353\/8762925818"
+  },
+  {
+    "facultyId":"FAC029",
+    "name":"Dr. Duddele Sai Prashanth",
+    "branch":"AI & ML",
+    "email":"duddela.ai@sahyadri.edu.in",
+    "phone":"9703333976"
+  },
+  {
+    "facultyId":"FAC030",
+    "name":"Dr. Sadhana",
+    "branch":"AI & ML",
+    "email":"sadhana.ai@sahyadri.edu.in",
+    "phone":"9035085529\/9164586278"
+  },
+  {
+    "facultyId":"FAC031",
+    "name":"Dr. Gurusiddaiah Herematth",
+    "branch":"AI & ML",
+    "email":"guru.ai@sahyadri.edu.in",
+    "phone":"7259568146"
+  },
+  {
+    "facultyId":"FAC032",
+    "name":"Mr. Sharathchandra",
+    "branch":"AI & ML",
+    "email":"sharath.ai@sahyadri.edu.in",
+    "phone":"9740069397"
+  },
+  {
+    "facultyId":"FAC033",
+    "name":"Mr. Ganaraj K",
+    "branch":"AI & ML",
+    "email":"ganaraj.ai@sahyadri.edu.in",
+    "phone":"8086714071"
+  },
+  {
+    "facultyId":"FAC034",
+    "name":"Ms Sandra Jeyes C",
+    "branch":"AI & ML",
+    "email":"sandra.ai@sahyadri.edu.in",
+    "phone":"7025154033"
+  },
+  {
+    "facultyId":"FAC035",
+    "name":"Shweta suresh Naik",
+    "branch":"AI & ML",
+    "email":"shwetasnaik.ai@sahyadri.edu.in",
+    "phone":"8749012023"
+  },
+  {
+    "facultyId":"FAC036",
+    "name":"Rajeshwari R Shettigar",
+    "branch":"AI & ML",
+    "email":"rajeshwari.ai@sahyadri.edu.in",
+    "phone":"9741700048"
+  },
+  {
+    "facultyId":"FAC037",
+    "name":"Ms. Shreekshitha",
+    "branch":"AI & ML",
+    "email":"shreekshitha.ai@sahyadri.edu.in",
+    "phone":"8123032065"
+  },
+  {
+    "facultyId":"FAC038",
+    "name":"Ms. Deeksha j S",
+    "branch":"AI & ML",
+    "email":"deekshajs.ai@sahyadri.edu.in",
+    "phone":"8296621815"
+  },
+  {
+    "facultyId":"FAC039",
+    "name":"Dr. Rithesh Pakkala P",
+    "branch":"ISE",
+    "email":"rpakkala.is@sahyadri.edu.in",
+    "phone":"9844916559"
+  },
+  {
+    "facultyId":"FAC040",
+    "name":"Dr. Sudheer Shetty",
+    "branch":"ISE",
+    "email":"sudheershetty.is@sahyadri.edu.in",
+    "phone":"9986030597"
+  },
+  {
+    "facultyId":"FAC041",
+    "name":"Dr. Shamantha Rai",
+    "branch":"ISE",
+    "email":"shamanth.cs@sahyadri.edu.in",
+    "phone":"9986407821"
+  },
+  {
+    "facultyId":"FAC042",
+    "name":"Mrs. Akila Thejaswi R",
+    "branch":"ISE",
+    "email":"akhila.is@sahyadri.edu.in",
+    "phone":"8951786202"
+  },
+  {
+    "facultyId":"FAC043",
+    "name":"Mr. Vasudeva Rao",
+    "branch":"ISE",
+    "email":"vasudeva.is@sahyadri.edu.in",
+    "phone":"8217894079"
+  },
+  {
+    "facultyId":"FAC044",
+    "name":"Mrs. Suchetha G",
+    "branch":"ISE",
+    "email":"suchethag.is@sahyadri.edu.in",
+    "phone":"9480251499"
+  },
+  {
+    "facultyId":"FAC045",
+    "name":"Mr. Pratheek H",
+    "branch":"ISE",
+    "email":"pratheek.is@sahyadri.edu.in",
+    "phone":"8971873978"
+  },
+  {
+    "facultyId":"FAC046",
+    "name":"Mrs. Harinakshi C",
+    "branch":"ISE",
+    "email":"harinakshi.is@sahyadri.edu.in",
+    "phone":"8310225052"
+  },
+  {
+    "facultyId":"FAC047",
+    "name":"Mrs. Shwetha Shetty",
+    "branch":"ISE",
+    "email":"shwethas.is@sahyadri.edu.in",
+    "phone":"8105869558 \/ 7892503187"
+  },
+  {
+    "facultyId":"FAC048",
+    "name":"Ms. Prajna U R",
+    "branch":"ISE",
+    "email":"prajnau.is@sahyadri.edu.in",
+    "phone":"8495971075"
+  },
+  {
+    "facultyId":"FAC049",
+    "name":"Ms. Madhu R",
+    "branch":"ISE",
+    "email":"madhu.is@sahyadri.edu.in",
+    "phone":"9880708327"
+  },
+  {
+    "facultyId":"FAC050",
+    "name":"Mr. Vikas M",
+    "branch":"ISE",
+    "email":"vikasm@sahyadri.edu.in",
+    "phone":"9448050413"
+  },
+  {
+    "facultyId":"FAC051",
+    "name":"Ms. Sneha Bose",
+    "branch":"ISE",
+    "email":"sneha.is@sahyadri.edu.in",
+    "phone":"8921935367"
+  },
+  {
+    "facultyId":"FAC052",
+    "name":"Mrs. Aishwarya Bhat",
+    "branch":"ISE",
+    "email":"aishwarya.is@sahyadri.edu.in",
+    "phone":"9686990106"
+  },
+  {
+    "facultyId":"FAC053",
+    "name":"Ms. Amritha Mohan C K",
+    "branch":"ISE",
+    "email":"amritha.is@sahyadri.edu.in",
+    "phone":"9482712763"
+  },
+  {
+    "facultyId":"FAC054",
+    "name":"Dr. Anush Bekal",
+    "branch":"ECE",
+    "email":"hod.ec.engineering@sahyadri.edu.in",
+    "phone":"9844324123"
+  },
+  {
+    "facultyId":"FAC055",
+    "name":"Dr. B G Shreeparamatti",
+    "branch":"ECE",
+    "email":"basavaprabhu.ec@sahyadri.edu.in",
+    "phone":"9448789302"
+  },
+  {
+    "facultyId":"FAC056",
+    "name":"Dr CHANDANA B R",
+    "branch":"ECE",
+    "email":"chandana.ec@sahyadri.edu.in",
+    "phone":"9845348289"
+  },
+  {
+    "facultyId":"FAC057",
+    "name":"Dr. Nisha",
+    "branch":"ECE",
+    "email":"nisha.ec@sahyadri.edu.in",
+    "phone":"8867710603"
+  },
+  {
+    "facultyId":"FAC058",
+    "name":"Mrs. Roopashree",
+    "branch":"ECE",
+    "email":"roopashree.ec@sahyadri.edu.in",
+    "phone":"9535619438\/8792511008"
+  },
+  {
+    "facultyId":"FAC059",
+    "name":"Mr. Ashwin Kumar",
+    "branch":"ECE",
+    "email":"ashwin.ec@sahyadri.edu.in",
+    "phone":"8277557835"
+  },
+  {
+    "facultyId":"FAC060",
+    "name":"Pavanalaxmi",
+    "branch":"ECE",
+    "email":"pavanalaxmi.ec@sahyadri.edu.in",
+    "phone":"9663732372"
+  },
+  {
+    "facultyId":"FAC061",
+    "name":"Mrs. Megha Narayan",
+    "branch":"ECE",
+    "email":"megha.ec@sahyadri.edu.in",
+    "phone":"9743529986"
+  },
+  {
+    "facultyId":"FAC062",
+    "name":"Ms. Smitha A. B.",
+    "branch":"ECE",
+    "email":"smitha.ec@sahyadri.edu.in",
+    "phone":"9535814972"
+  },
+  {
+    "facultyId":"FAC063",
+    "name":"Mrs Sumiksha Shetty",
+    "branch":"ECE",
+    "email":"sumikshashetty.ec@sahyadri.edu.in",
+    "phone":"8147666197"
+  },
+  {
+    "facultyId":"FAC064",
+    "name":"Mehnaz Fathima C",
+    "branch":"ECE",
+    "email":"fathima.ec@sahyadri.edu.in",
+    "phone":"9744291950"
+  },
+  {
+    "facultyId":"FAC065",
+    "name":"Mrs KRIPA",
+    "branch":"ECE",
+    "email":"kripa.ec@sahyadri.edu.in",
+    "phone":"9164863039"
+  },
+  {
+    "facultyId":"FAC066",
+    "name":"Mrs. Babith",
+    "branch":"ECE",
+    "email":"babitha.ec@sahyadri.edu.in",
+    "phone":"8792160947"
+  },
+  {
+    "facultyId":"FAC067",
+    "name":"Ms. Rekha M B",
+    "branch":"ECE",
+    "email":"rekha.ec@sahyadri.edu.in",
+    "phone":"9591554001"
+  },
+  {
+    "facultyId":"FAC068",
+    "name":"Mr. ABHISHEK A B",
+    "branch":"ECE",
+    "email":"abhishek.ec@sahyadri.edu.in",
+    "phone":"9972242425"
+  },
+  {
+    "facultyId":"FAC069",
+    "name":"Ms. Sri Haripriya Rai N",
+    "branch":"ECE",
+    "email":"haripriya.ec@sahyadri.edu.in",
+    "phone":"9481611391"
+  },
+  {
+    "facultyId":"FAC070",
+    "name":"Mrs. Aswathy K Sarma",
+    "branch":"ECE",
+    "email":"aswathy.ec@sahyadri.edu.in",
+    "phone":null
+  },
+  {
+    "facultyId":"FAC071",
+    "name":"Dr. Lawrence Joseph Fernandes",
+    "branch":"ME",
+    "email":"hod.mech.engg@sahyadri.edu.in",
+    "phone":"9449102115"
+  },
+  {
+    "facultyId":"FAC072",
+    "name":"Dr. Rathishchandra Gatti",
+    "branch":"ME",
+    "email":"rathishchandra.mech@sahyadri.edu.in",
+    "phone":"9481847572"
+  },
+  {
+    "facultyId":"FAC073",
+    "name":"Dr. Shankara Murthy H M",
+    "branch":"ME",
+    "email":"shankara.mech@sahyadri.edu.in",
+    "phone":"9164622687"
+  },
+  {
+    "facultyId":"FAC074",
+    "name":"Dr. Vaishak N L",
+    "branch":"ME",
+    "email":"vaishak.mech@sahyadri.edu.in",
+    "phone":"9902537523"
+  },
+  {
+    "facultyId":"FAC075",
+    "name":"Dr. Ajith B S",
+    "branch":"ME",
+    "email":"ajith.mech@sahyadri.edu.in",
+    "phone":"9036421767"
+  },
+  {
+    "facultyId":"FAC076",
+    "name":"Dr. Ramakrishna Devanand P",
+    "branch":"ME",
+    "email":"ramakrishna.mech@sahyadri.edu.in",
+    "phone":"9482796974"
+  },
+  {
+    "facultyId":"FAC077",
+    "name":"Mr. Prasad Chandran N",
+    "branch":"ME",
+    "email":"prasad.mech@sahyadri.edu.in",
+    "phone":"9964214014\/9449845949"
+  },
+  {
+    "facultyId":"FAC078",
+    "name":"Mr. Kiran Prakash A",
+    "branch":"ME",
+    "email":"kiran.mech@sahyadri.edu.in",
+    "phone":"9035017430"
+  },
+  {
+    "facultyId":"FAC079",
+    "name":"Mr. Suhas Poojary",
+    "branch":"ME",
+    "email":"suhas.me@sahyadri.edu.in",
+    "phone":"8970046230"
+  },
+  {
+    "facultyId":"FAC080",
+    "name":"Mr. Vikas G",
+    "branch":"ME",
+    "email":"vikas.mech@sahyadri.edu.in",
+    "phone":"8892425073"
+  },
+  {
+    "facultyId":"FAC081",
+    "name":"Mr. Pavitra Ajagol",
+    "branch":"ME",
+    "email":"pavitra.mech@sahyadri.edu.in",
+    "phone":"8884774642"
+  },
+  {
+    "facultyId":"FAC082",
+    "name":"Mr. Shivakumar KM",
+    "branch":"ME",
+    "email":"shivakumar.mech@sahyadri.edu.in",
+    "phone":"8310093843"
+  },
+  {
+    "facultyId":"FAC083",
+    "name":"Mr. Vinay B.U",
+    "branch":"ME",
+    "email":"vinay.mech@sahyadri.edu.in",
+    "phone":"9611501544"
+  },
+  {
+    "facultyId":"FAC084",
+    "name":"Mr. Gagan Shetty K",
+    "branch":"ME",
+    "email":"gagan.mech@sahyadri.edu.in",
+    "phone":"9916655699"
+  },
+  {
+    "facultyId":"FAC085",
+    "name":"Mr. Adesh Padival B",
+    "branch":"ME",
+    "email":"adesh.mech@sahyadri.edu.in",
+    "phone":"8660198558"
+  },
+  {
+    "facultyId":"FAC086",
+    "name":"Mr. Sunil H V",
+    "branch":"ME",
+    "email":"sunilhv.mech@sahyadri.edu.in",
+    "phone":"7483731394"
+  },
+  {
+    "facultyId":"FAC087",
+    "name":"Mr. Yathisha K K",
+    "branch":"ME",
+    "email":"yathisha.mech@sahyadri.edu.in",
+    "phone":"9591407262"
+  },
+  {
+    "facultyId":"FAC088",
+    "name":"Mr. Abhishek K",
+    "branch":"ME",
+    "email":"abhishek.mech@sahyadri.edu.in",
+    "phone":"9844708316"
+  },
+  {
+    "facultyId":"FAC089",
+    "name":"Mr. Gautham Nayak",
+    "branch":"ME",
+    "email":"gautham.mech@sahyadri.edu.in",
+    "phone":"8970078969"
+  },
+  {
+    "facultyId":"FAC090",
+    "name":"Mr. Hemanth Prabhu",
+    "branch":"Basic Science",
+    "email":"hemantha.civil@sahyadri.edu.in",
+    "phone":"9448972015"
+  },
+  {
+    "facultyId":"FAC091",
+    "name":"Mr. Sunil Kumar K Rai",
+    "branch":"Basic Science",
+    "email":"sunil.civil@sahyadri.edu.in",
+    "phone":"9916596562"
+  },
+  {
+    "facultyId":"FAC092",
+    "name":"Ms. Ramya K",
+    "branch":"Basic Science",
+    "email":"ramya.civil@sahyadri.edu.in",
+    "phone":"9900339204"
+  },
+  {
+    "facultyId":"FAC093",
+    "name":"Mr. Supreeth Prabhu",
+    "branch":"Basic Science",
+    "email":"supreethprabhu.cv@sahyadri.edu.in",
+    "phone":"9743702469"
+  },
+  {
+    "facultyId":"FAC094",
+    "name":"Dr. Prashantha Rao",
+    "branch":"Basic Science",
+    "email":"hod.bs.engg@sahyadri.edu.in",
+    "phone":"9448983914"
+  },
+  {
+    "facultyId":"FAC095",
+    "name":"Dr. Sunitha Priya D'Silva",
+    "branch":"Basic Science",
+    "email":"sunita.math@sahyadri.edu.in",
+    "phone":"9945477616"
+  },
+  {
+    "facultyId":"FAC096",
+    "name":"Dr. Aysha Shabana",
+    "branch":"Basic Science",
+    "email":"aysha.math@sahyadri.edu.in",
+    "phone":"9538352490"
+  },
+  {
+    "facultyId":"FAC097",
+    "name":"Mr. Mallesh N",
+    "branch":"Basic Science",
+    "email":"mallesh.math@sahyadri.edu.in",
+    "phone":"9902749972"
+  },
+  {
+    "facultyId":"FAC098",
+    "name":"Mrs. Mary Jincy Shinto",
+    "branch":"Basic Science",
+    "email":"mary.math@sahyadri.edu.in",
+    "phone":"9972369904"
+  },
+  {
+    "facultyId":"FAC099",
+    "name":"Mrs. Sucheta",
+    "branch":"Basic Science",
+    "email":"suchetha.math@sahyadri.edu.in",
+    "phone":"8310358296"
+  },
+  {
+    "facultyId":"FAC100",
+    "name":"Mr. Thrivikram",
+    "branch":"Basic Science ",
+    "email":"trivikram.bs@sahyadri.edu.in",
+    "phone":"8886328134"
+  },
+  {
+    "facultyId":"FAC101",
+    "name":"Mrs DEEPTHI K M",
+    "branch":"Basic Science",
+    "email":"deepthikm.math@sahyadri.edu.in",
+    "phone":"8075001798"
+  },
+  {
+    "facultyId":"FAC102",
+    "name":"Mrs MANISHA",
+    "branch":"Basic Science",
+    "email":"manisha.math@sahyadri.edu.in",
+    "phone":"8722722072"
+  },
+  {
+    "facultyId":"FAC103",
+    "name":"Dr. Jyothi F. Serrao",
+    "branch":"Basic Science",
+    "email":"jyothi.phy@sahyadri.edu.in",
+    "phone":"9448621477"
+  },
+  {
+    "facultyId":"FAC104",
+    "name":"Ms. Anusha k",
+    "branch":"CSE",
+    "email":"anusha.physics@sahyadri.edu.in",
+    "phone":"9663544577"
+  },
+  {
+    "facultyId":"FAC105",
+    "name":"Mrs. Sharel Victoria Coelho",
+    "branch":"Basic Science",
+    "email":"sharel.phy@sahyadri.edu.in",
+    "phone":"9591345381"
+  },
+  {
+    "facultyId":"FAC106",
+    "name":"Dr. Manjappa Sarathi",
+    "branch":"Basic Science",
+    "email":"director.rdc@sahyadri.edu.in",
+    "phone":"9844320294"
+  },
+  {
+    "facultyId":"FAC107",
+    "name":"Dr. Savitha M B",
+    "branch":"Basic Science",
+    "email":"savitha.chem@sahyadri.edu.in",
+    "phone":"7899262515"
+  },
+  {
+    "facultyId":"FAC108",
+    "name":"Mrs. Sandhyashree U.V",
+    "branch":"Basic Science",
+    "email":"sandhyashree.chem@sahyadri.edu.in",
+    "phone":"9611188117"
+  },
+  {
+    "facultyId":"FAC109",
+    "name":"Mrs. Sharadha Priya",
+    "branch":"Basic Science",
+    "email":"sharada.chem@sahyadri.edu.in",
+    "phone":"8951640202"
+  },
+  {
+    "facultyId":"FAC110",
+    "name":"Ms. Madhura",
+    "branch":"Basic Science",
+    "email":"madhura.chem@sahyadri.edu.in",
+    "phone":"9108113221"
+  },
+  {
+    "facultyId":"FAC111",
+    "name":"Dr. Vishal Samartha",
+    "branch":"MBA",
+    "email":"director.mba@sahyadri.edu.in",
+    "phone":"9886184413"
+  },
+  {
+    "facultyId":"FAC112",
+    "name":"Dr. Sushma V.",
+    "branch":"MBA",
+    "email":"sushma.mba@sahyadri.edu.in",
+    "phone":"9632053663"
+  },
+  {
+    "facultyId":"FAC113",
+    "name":"Dr. Prima D Souza",
+    "branch":"MBA",
+    "email":"prima.mba@sahyadri.edu.in",
+    "phone":"9901729961"
+  },
+  {
+    "facultyId":"FAC114",
+    "name":"Mr. Ramesh K.G",
+    "branch":"MBA",
+    "email":"ramesh.mba@sahyadri.edu.in",
+    "phone":"9900143112"
+  },
+  {
+    "facultyId":"FAC115",
+    "name":"Mr. Padmanabha B",
+    "branch":"MBA",
+    "email":"padmanabha.mba@sahyadri.edu.in",
+    "phone":"9845089165"
+  },
+  {
+    "facultyId":"FAC116",
+    "name":"Mrs. Pooja Y. Rai",
+    "branch":"MBA",
+    "email":"pooja.mba@sahyadri.edu.in",
+    "phone":"9448100000"
+  },
+  {
+    "facultyId":"FAC117",
+    "name":"Mr. Samarth Shenoy",
+    "branch":"MBA",
+    "email":"samarth.mba@sahyadri.edu.in",
+    "phone":"7204128432"
+  },
+  {
+    "facultyId":"FAC118",
+    "name":"Mr. Pavan Kumar Hegde",
+    "branch":"MBA",
+    "email":"pavan.mba@sahyadri.edu.in",
+    "phone":"9449845999"
+  },
+  {
+    "facultyId":"FAC119",
+    "name":"Mr. Sagar Attavar",
+    "branch":"MBA",
+    "email":"sagarattavar.mba@sahyadri.edu.in",
+    "phone":"8123764360"
+  },
+  {
+    "facultyId":"FAC120",
+    "name":"Mr Awin Eric Cutinha",
+    "branch":"MBA",
+    "email":"awin.mba@sahyadri.edu.in",
+    "phone":"9611452167"
+  },
+  {
+    "facultyId":"FAC121",
+    "name":"Mr. Anumesh D Kariappa",
+    "branch":"MBA",
+    "email":"anumesh.mba@sahyadri.edu.in",
+    "phone":"9742283392"
+  },
+  {
+    "facultyId":"FAC122",
+    "name":"Mr. Sanath Kumar K",
+    "branch":"MBA",
+    "email":"sanathkumar.mba@sahyadri.edu.in",
+    "phone":"9606749538"
+  },
+  {
+    "facultyId":"FAC123",
+    "name":"Ms. Monisha Shetty",
+    "branch":"MBA",
+    "email":"monisha.mba@sahyadri.edu.in",
+    "phone":"8073528779"
+  },
+  {
+    "facultyId":"FAC124",
+    "name":"Mrs. Akshatha P",
+    "branch":"MBA",
+    "email":"akshatha.mba@sahyadri.edu.in",
+    "phone":"7012389058"
+  },
+  {
+    "facultyId":"FAC125",
+    "name":"Mr. Anirudh Bhat",
+    "branch":"MBA",
+    "email":"anirudh.mba@sahyadri.edu.in",
+    "phone":"9880949152"
+  },
+  {
+    "facultyId":"FAC126",
+    "name":"Mr. Varun C S",
+    "branch":"MBA",
+    "email":"varun.mba@sahyadri.edu.in",
+    "phone":"8722550625"
+  },
+  {
+    "facultyId":"FAC127",
+    "name":"Ms. Sathwi R Acharya",
+    "branch":"MBA",
+    "email":"sathwi.mba@sahyadri.edu.in",
+    "phone":"6360059934"
+  },
+  {
+    "facultyId":"FAC128",
+    "name":"Akshatha M G",
+    "branch":"Basic Science",
+    "email":"akshatha.kannada@sahyadri.edu.in",
+    "phone":"8548026586"
+  },
+  {
+    "facultyId":"FAC129",
+    "name":"Ms. Mamatha",
+    "branch":"Basic Science",
+    "email":"mamatha.english@sahyadri.edu.in",
+    "phone":"9980578433"
+  },
+  {
+    "facultyId":"FAC130",
+    "name":"Ms. Supritha Shine",
+    "branch":"Basic Science",
+    "email":"suprithashine.english@sahyadri.edu.in",
+    "phone":"9900930843"
+  },
+  {
+    "facultyId":"FAC131",
+    "name":"Ms. Monisha",
+    "branch":"Basic Science ",
+    "email":"monisha.bs@sahyadri.edu.in",
+    "phone":"8073935254"
+  }
+]

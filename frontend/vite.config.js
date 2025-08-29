@@ -6,21 +6,20 @@ export default defineConfig({
   server: {
     port: 5173
   },
-  // Add these for proper deployment
   base: "./", // Ensures assets use relative paths
   build: {
-    outDir: "dist", // Output directory
-    assetsDir: "assets", // Assets subdirectory
-    sourcemap: false, // Disable sourcemaps for production (optional)
+    outDir: "dist",
+    assetsDir: "assets",
+    sourcemap: false,
     rollupOptions: {
       output: {
-        manualChunks: undefined // Prevents chunk splitting issues
+        manualChunks: undefined
       }
     }
   },
-  // Handle SPA routing for development
   preview: {
     port: 4173,
-    host: true // Allow external access
+    host: true,
+    allowedHosts: ["frontend-4-qajc.onrender.com"] // <-- Add this line
   }
 });

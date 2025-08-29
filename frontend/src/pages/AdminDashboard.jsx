@@ -6,6 +6,8 @@ export default function AdminDashboard() {
   const [roomsByBranch, setRoomsByBranch] = useState({});
   const [allBookings, setAllBookings] = useState([]);
   const [faculty, setFaculty] = useState([]);
+  const [selectedFaculty, setSelectedFaculty] = useState(null);
+  const [showFacultyModal, setShowFacultyModal] = useState(false);
   const [dashboardStats, setDashboardStats] = useState({
     classrooms: 0,
     bookings: 0,
@@ -36,6 +38,69 @@ export default function AdminDashboard() {
       document.body.classList.remove('no-background');
     };
   }, []);
+
+  // Helper function to safely extract faculty data
+  function processFacultyData(responseData) {
+    if (!responseData) return [];
+    
+    // Handle different response structures
+    let facultyArray = [];
+    
+    if (Array.isArray(responseData)) {
+      facultyArray = responseData;
+    } else if (responseData.data && Array.isArray(responseData.data)) {
+      facultyArray = responseData.data;
+    } else if (responseData.faculty && Array.isArray(responseData.faculty)) {
+      facultyArray = responseData.faculty;
+    } else if (typeof responseData === 'object') {
+      // Handle grouped by branch data
+      facultyArray = Object.values(responseData).flat();
+    }
+
+    // Normalize the faculty data structure
+    return facultyArray.map(member => ({
+      _id: member._id || member.id || member.facultyId,
+      name: member.name || member.Name || member.facultyName || 'Unknown',
+      branch: member.branch || member.department || member.Department || member.Branch || 'Unknown',
+      email: member.email || member.Email || '',
+      phone: member.phone || member.Phone || '',
+      designation: member.designation || member.Designation || 'Faculty',
+      experience: member.experience || member.Experience || 'N/A',
+      qualification: member.qualification || member.Qualification || 'N/A',
+      subjects: member.subjects || member.Subjects || [],
+      joinDate: member.joinDate || member.JoinDate || 'N/A',
+      employeeId: member.employeeId || member.EmployeeId || 'N/A'
+    }));
+  }
+
+  // Function to view faculty details
+  const viewFacultyDetails = async (facultyId) => {
+    try {
+      // Try to get detailed faculty info
+      const response = await api.get(`/api/faculty/${facultyId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      const facultyDetails = processFacultyData([response.data])[0];
+      setSelectedFaculty(facultyDetails);
+      setShowFacultyModal(true);
+    } catch (error) {
+      // If detailed fetch fails, use the data we already have
+      const facultyMember = faculty.find(f => f._id === facultyId);
+      if (facultyMember) {
+        setSelectedFaculty(facultyMember);
+        setShowFacultyModal(true);
+      } else {
+        setErr("Failed to load faculty details: " + (error.response?.data?.error || error.message));
+      }
+    }
+  };
+
+  // Close faculty modal
+  const closeFacultyModal = () => {
+    setShowFacultyModal(false);
+    setSelectedFaculty(null);
+  };
 
   async function load() {
     setLoading(true);
@@ -122,25 +187,37 @@ export default function AdminDashboard() {
         }));
       }
 
-      // Fetch faculty data properly
+      // Improved faculty data fetching
       console.log("Fetching faculty...");
       try {
-        // Try multiple endpoints to get faculty data
         let facultyData = [];
-        try {
-          const facultyResponse = await api.get("/api/faculty");
-          facultyData = Array.isArray(facultyResponse.data) ? facultyResponse.data : [];
-        } catch (firstTry) {
+        const endpoints = [
+          "/api/faculty",
+          "/api/faculties", 
+          "/api/admin/faculty",
+          "/api/faculties/branches",
+          "/api/faculties/all"
+        ];
+        
+        for (const endpoint of endpoints) {
           try {
-            const facultyResponse = await api.get("/api/faculties");
-            facultyData = Array.isArray(facultyResponse.data) ? facultyResponse.data : [];
-          } catch (secondTry) {
-            // Try the branches endpoint as fallback
-            const facultyResponse = await api.get("/api/faculties/branches");
-            facultyData = Array.isArray(facultyResponse.data) ? facultyResponse.data : [];
+            console.log(`Trying endpoint: ${endpoint}`);
+            const facultyResponse = await api.get(endpoint);
+            console.log(`${endpoint} response:`, facultyResponse.data);
+            
+            const processedData = processFacultyData(facultyResponse.data);
+            if (processedData.length > 0) {
+              facultyData = processedData;
+              console.log(`Successfully fetched ${facultyData.length} faculty from ${endpoint}`);
+              break;
+            }
+          } catch (endpointError) {
+            console.warn(`${endpoint} failed:`, endpointError.message);
+            continue;
           }
         }
         
+        console.log("Final processed faculty data:", facultyData);
         setFaculty(facultyData);
         
         if (!dashboardStats.facultyMembers) {
@@ -150,7 +227,7 @@ export default function AdminDashboard() {
           }));
         }
       } catch (facultyError) {
-        console.warn("Faculty fetch failed:", facultyError.message);
+        console.warn("All faculty endpoints failed:", facultyError.message);
         setFaculty([]);
       }
 
@@ -161,7 +238,9 @@ export default function AdminDashboard() {
         const allBookingsResponse = await api.get("/api/admin/bookings/all", {
           headers: { Authorization: `Bearer ${token}` }
         });
-        const bookings = Array.isArray(allBookingsResponse.data) ? allBookingsResponse.data : [];
+        console.log("All bookings response:", allBookingsResponse.data);
+        const bookings = Array.isArray(allBookingsResponse.data) ? allBookingsResponse.data : 
+                        (allBookingsResponse.data.data ? allBookingsResponse.data.data : []);
         setAllBookings(bookings);
         
         if (!dashboardStats.bookings) {
@@ -171,15 +250,28 @@ export default function AdminDashboard() {
           }));
         }
       } catch (bookingError) {
-        console.warn("All bookings fetch failed, trying personal bookings:", bookingError.message);
+        console.warn("All bookings fetch failed, trying alternative endpoints:", bookingError.message);
         try {
-          const myBookingsResponse = await api.get("/api/bookings/mine", {
+          // Try general bookings endpoint
+          const bookingsResponse = await api.get("/api/bookings", {
             headers: { Authorization: `Bearer ${token}` }
           });
-          const myBookings = Array.isArray(myBookingsResponse.data) ? myBookingsResponse.data : [];
-          setAllBookings(myBookings);
-        } catch (myBookingError) {
-          console.warn("Personal bookings fetch also failed:", myBookingError.message);
+          console.log("General bookings response:", bookingsResponse.data);
+          const bookings = Array.isArray(bookingsResponse.data) ? bookingsResponse.data : 
+                          (bookingsResponse.data.data ? bookingsResponse.data.data : []);
+          setAllBookings(bookings);
+        } catch (secondTry) {
+          try {
+            const myBookingsResponse = await api.get("/api/bookings/mine", {
+              headers: { Authorization: `Bearer ${token}` }
+            });
+            console.log("My bookings response:", myBookingsResponse.data);
+            const myBookings = Array.isArray(myBookingsResponse.data) ? myBookingsResponse.data : 
+                              (myBookingsResponse.data.data ? myBookingsResponse.data.data : []);
+            setAllBookings(myBookings);
+          } catch (myBookingError) {
+            console.warn("All booking endpoints failed:", myBookingError.message);
+          }
         }
       }
 
@@ -269,6 +361,16 @@ export default function AdminDashboard() {
     }
   }
 
+  // Group faculty by branch for better display
+  const facultyByBranch = faculty.reduce((acc, member) => {
+    const branchName = member.branch || 'Unknown';
+    if (!acc[branchName]) {
+      acc[branchName] = [];
+    }
+    acc[branchName].push(member);
+    return acc;
+  }, {});
+
   if (loading && activeTab === "overview") {
     return (
       <div style={{ padding: '20px', textAlign: 'center' }}>
@@ -287,6 +389,27 @@ export default function AdminDashboard() {
     cursor: 'pointer',
     display: 'inline-block'
   });
+
+  const buttonStyle = {
+    padding: '6px 12px',
+    margin: '0 5px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '12px'
+  };
+
+  const viewButtonStyle = {
+    ...buttonStyle,
+    backgroundColor: '#007bff',
+    color: 'white'
+  };
+
+  const deleteButtonStyle = {
+    ...buttonStyle,
+    backgroundColor: '#dc3545',
+    color: 'white'
+  };
 
   return (
     <div style={{ 
@@ -407,6 +530,148 @@ export default function AdminDashboard() {
         </div>
       </section>
 
+      {/* Faculty Details Modal */}
+      {showFacultyModal && selectedFaculty && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            padding: '30px',
+            borderRadius: '8px',
+            maxWidth: '600px',
+            width: '90%',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+            position: 'relative'
+          }}>
+            <button
+              onClick={closeFacultyModal}
+              style={{
+                position: 'absolute',
+                top: '15px',
+                right: '15px',
+                background: 'none',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                color: '#666'
+              }}
+            >
+              ×
+            </button>
+            
+            <h3 style={{ marginBottom: '20px', color: '#007bff' }}>Faculty Details</h3>
+            
+            <div style={{ display: 'grid', gap: '15px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div>
+                  <strong>Name:</strong>
+                  <p style={{ margin: '5px 0', padding: '8px', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
+                    {selectedFaculty.name}
+                  </p>
+                </div>
+                <div>
+                  <strong>Employee ID:</strong>
+                  <p style={{ margin: '5px 0', padding: '8px', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
+                    {selectedFaculty.employeeId}
+                  </p>
+                </div>
+              </div>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div>
+                  <strong>Department:</strong>
+                  <p style={{ margin: '5px 0', padding: '8px', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
+                    {selectedFaculty.branch}
+                  </p>
+                </div>
+                <div>
+                  <strong>Designation:</strong>
+                  <p style={{ margin: '5px 0', padding: '8px', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
+                    {selectedFaculty.designation}
+                  </p>
+                </div>
+              </div>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div>
+                  <strong>Email:</strong>
+                  <p style={{ margin: '5px 0', padding: '8px', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
+                    {selectedFaculty.email || 'N/A'}
+                  </p>
+                </div>
+                <div>
+                  <strong>Phone:</strong>
+                  <p style={{ margin: '5px 0', padding: '8px', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
+                    {selectedFaculty.phone || 'N/A'}
+                  </p>
+                </div>
+              </div>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                <div>
+                  <strong>Experience:</strong>
+                  <p style={{ margin: '5px 0', padding: '8px', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
+                    {selectedFaculty.experience}
+                  </p>
+                </div>
+                <div>
+                  <strong>Join Date:</strong>
+                  <p style={{ margin: '5px 0', padding: '8px', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
+                    {selectedFaculty.joinDate}
+                  </p>
+                </div>
+              </div>
+              
+              <div>
+                <strong>Qualification:</strong>
+                <p style={{ margin: '5px 0', padding: '8px', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
+                  {selectedFaculty.qualification}
+                </p>
+              </div>
+              
+              {selectedFaculty.subjects && selectedFaculty.subjects.length > 0 && (
+                <div>
+                  <strong>Subjects:</strong>
+                  <div style={{ margin: '5px 0', padding: '8px', backgroundColor: '#f8f9fa', borderRadius: '4px' }}>
+                    {Array.isArray(selectedFaculty.subjects) 
+                      ? selectedFaculty.subjects.join(', ')
+                      : selectedFaculty.subjects
+                    }
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            <div style={{ marginTop: '20px', textAlign: 'center' }}>
+              <button
+                onClick={closeFacultyModal}
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#6c757d',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer'
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Tab Content */}
       {activeTab === 'overview' && (
         <section>
@@ -428,8 +693,7 @@ export default function AdminDashboard() {
                     Classrooms: {roomsByBranch[branchName]?.length || 0}
                   </p>
                   <p style={{ margin: '5px 0', fontSize: '14px' }}>
-                    Smartboards: {roomsByBranch[branchName]?.reduce((total, room) => 
-                      total + (room.Smartboards?.length || 0), 0) || 0}
+                    Faculty: {facultyByBranch[branchName]?.length || 0}
                   </p>
                 </div>
               ))}
@@ -505,8 +769,6 @@ export default function AdminDashboard() {
                   <thead>
                     <tr style={{ backgroundColor: '#f8f9fa' }}>
                       <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Classroom</th>
-                      <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Smartboards</th>
-                      <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Status</th>
                       <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Actions</th>
                     </tr>
                   </thead>
@@ -515,31 +777,9 @@ export default function AdminDashboard() {
                       <tr key={r._id}>
                         <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>{r.Classroom}</td>
                         <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
-                          {r.Smartboards ? r.Smartboards.length : 0}
-                        </td>
-                        <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
-                          <span style={{ 
-                            padding: '4px 8px',
-                            backgroundColor: '#28a745',
-                            color: 'white',
-                            borderRadius: '4px',
-                            fontSize: '12px'
-                          }}>
-                            Active
-                          </span>
-                        </td>
-                        <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
                           <button
                             onClick={() => deleteClassroom(r._id)}
-                            style={{ 
-                              padding: '6px 12px',
-                              backgroundColor: '#dc3545',
-                              color: 'white',
-                              border: 'none',
-                              borderRadius: '4px',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
+                            style={deleteButtonStyle}
                           >
                             Delete
                           </button>
@@ -548,7 +788,7 @@ export default function AdminDashboard() {
                     ))}
                     {rooms.length === 0 && (
                       <tr>
-                        <td colSpan="4" style={{ padding: '20px', textAlign: 'center', color: '#666', border: '1px solid #dee2e6' }}>
+                        <td colSpan="2" style={{ padding: '20px', textAlign: 'center', color: '#666', border: '1px solid #dee2e6' }}>
                           No classrooms found for {branchName}
                         </td>
                       </tr>
@@ -564,9 +804,6 @@ export default function AdminDashboard() {
       {activeTab === 'bookings' && (
         <section>
           <h4>All System Bookings ({allBookings.length})</h4>
-          <p style={{ color: '#666', marginBottom: '20px' }}>
-            {allBookings.length > 0 ? 'System-wide booking overview' : 'Currently showing limited booking data - admin booking endpoints need backend implementation'}
-          </p>
           <div style={{ overflowX: 'auto' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
@@ -579,36 +816,47 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {allBookings.map((b) => (
-                  <tr key={b._id}>
-                    <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
-                      {new Date(b.date).toLocaleDateString()}
-                    </td>
-                    <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>{b.time}</td>
-                    <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>{b.classroom}</td>
-                    <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>{b.facultyName || 'N/A'}</td>
-                    <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
-                      <button
-                        onClick={() => deleteBooking(b._id)}
-                        style={{ 
-                          padding: '6px 12px',
-                          backgroundColor: '#dc3545',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '4px',
-                          cursor: 'pointer',
-                          fontSize: '12px'
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {allBookings.map((b, index) => {
+                  // Extract faculty name from various possible fields
+                  const facultyName = b.facultyName || 
+                                     b.faculty || 
+                                     b.bookedBy || 
+                                     b.Faculty || 
+                                     b.BookedBy || 
+                                     b.facultyDetails?.name ||
+                                     (b.user ? b.user.name : null) ||
+                                     (b.userId ? `User ID: ${b.userId}` : null) ||
+                                     'Unknown';
+                  
+                  return (
+                    <tr key={b._id || index}>
+                      <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                        {b.date ? new Date(b.date).toLocaleDateString() : 'Unknown'}
+                      </td>
+                      <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                        {b.time || b.timeSlot || b.Time || 'Unknown'}
+                      </td>
+                      <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                        {b.classroom || b.classroomName || b.room || b.Classroom || 'Unknown'}
+                      </td>
+                      <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                        {facultyName}
+                      </td>
+                      <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                        <button
+                          onClick={() => deleteBooking(b._id)}
+                          style={deleteButtonStyle}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
                 {allBookings.length === 0 && (
                   <tr>
                     <td colSpan="5" style={{ padding: '20px', textAlign: 'center', color: '#666', border: '1px solid #dee2e6' }}>
-                      No bookings found - check system connectivity
+                      No bookings found
                     </td>
                   </tr>
                 )}
@@ -621,61 +869,118 @@ export default function AdminDashboard() {
       {activeTab === 'faculty' && (
         <section>
           <h4>All Faculty Members ({faculty.length})</h4>
-          <p style={{ color: '#666', marginBottom: '20px' }}>Faculty management across all departments</p>
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ backgroundColor: '#f8f9fa' }}>
-                  <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Name</th>
-                  <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Email</th>
-                  <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Department</th>
-                  <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Employee ID</th>
-                  <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {faculty.map((f, index) => (
-                  <tr key={f._id || f.facultyId || index}>
-                    <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
-                      {f.name || f.Name || 'N/A'}
-                    </td>
-                    <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
-                      {f.email || f.Email || 'N/A'}
-                    </td>
-                    <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
-                      {f.branch || f.department || f.Department || 'N/A'}
-                    </td>
-                    <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
-                      {f.facultyId || f.employeeId || f.EmployeeID || 'N/A'}
-                    </td>
-                    <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
-                      <button
-                        onClick={() => deleteFaculty(f._id || f.facultyId)}
-                        style={{ 
-                          padding: '6px 12px',
-                          backgroundColor: '#dc3545',
-                          color: 'white',
-                          border: 'none',
-                          borderRadius: '4px',
-                          cursor: 'pointer',
-                          fontSize: '12px'
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </td>
+          
+          {Object.keys(facultyByBranch).length > 1 ? (
+            // Display grouped by department if we have multiple departments
+            Object.entries(facultyByBranch).map(([branchName, members]) => (
+              <div key={branchName} style={{ marginBottom: '30px' }}>
+                <h5 style={{ 
+                  padding: '10px', 
+                  backgroundColor: '#28a745', 
+                  color: 'white', 
+                  margin: '0 0 10px 0',
+                  borderRadius: '4px'
+                }}>
+                  {branchName} Department ({members.length} members)
+                </h5>
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                    <thead>
+                      <tr style={{ backgroundColor: '#f8f9fa' }}>
+                        <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Name</th>
+                        <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Email</th>
+                        <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Phone</th>
+                        <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {members.map((f, index) => (
+                        <tr key={f._id || index}>
+                          <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                            {f.name}
+                          </td>
+                          <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                            {f.email || 'N/A'}
+                          </td>
+                          <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                            {f.phone || 'N/A'}
+                          </td>
+                          <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                            <button
+                              onClick={() => viewFacultyDetails(f._id)}
+                              style={viewButtonStyle}
+                            >
+                              View Details
+                            </button>
+                            <button
+                              onClick={() => deleteFaculty(f._id)}
+                              style={deleteButtonStyle}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ))
+          ) : (
+            // Display as single table if all faculty are in one group or ungrouped
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ backgroundColor: '#f8f9fa' }}>
+                    <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Name</th>
+                    <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Department</th>
+                    <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Email</th>
+                    <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Phone</th>
+                    <th style={{ padding: '12px', textAlign: 'left', border: '1px solid #dee2e6' }}>Actions</th>
                   </tr>
-                ))}
-                {faculty.length === 0 && (
-                  <tr>
-                    <td colSpan="5" style={{ padding: '20px', textAlign: 'center', color: '#666', border: '1px solid #dee2e6' }}>
-                      No faculty members found - check backend faculty data or endpoints
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {faculty.map((f, index) => (
+                    <tr key={f._id || index}>
+                      <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                        {f.name}
+                      </td>
+                      <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                        {f.branch}
+                      </td>
+                      <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                        {f.email || 'N/A'}
+                      </td>
+                      <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                        {f.phone || 'N/A'}
+                      </td>
+                      <td style={{ padding: '12px', border: '1px solid #dee2e6' }}>
+                        <button
+                          onClick={() => viewFacultyDetails(f._id)}
+                          style={viewButtonStyle}
+                        >
+                          View Details
+                        </button>
+                        <button
+                          onClick={() => deleteFaculty(f._id)}
+                          style={deleteButtonStyle}
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                  {faculty.length === 0 && (
+                    <tr>
+                      <td colSpan="5" style={{ padding: '20px', textAlign: 'center', color: '#666', border: '1px solid #dee2e6' }}>
+                        No faculty members found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
         </section>
       )}
     </div>

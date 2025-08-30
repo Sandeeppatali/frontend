@@ -5,7 +5,7 @@
 body {
   margin: 0;
   font-family: "Segoe UI", Roboto, Arial, sans-serif;
-  background: url("images/college.jpeg") no-repeat center center fixed;
+  background: url("/images/college.jpeg") no-repeat center center fixed;
   background-size: cover;
   color: #333;
   animation: fadeInBg 2s ease-in-out;

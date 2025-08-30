@@ -14,117 +14,36 @@ import emailTestRoute from "./routes/emailTest.js";
 dotenv.config();
 const app = express();
 
-// 🔥 UPDATED CORS CONFIGURATION - CRITICAL FIX
-const allowedOrigins = [
-  "http://localhost:3000",
-  "http://localhost:5173", 
-  "http://localhost:4173",
-  "https://smartboard-booking-v92s.onrender.com", // Your frontend URL
-  // Add CLIENT_ORIGIN from env if it exists
-  ...(process.env.CLIENT_ORIGIN?.split(",") || [])
-];
-
-console.log("🌐 Allowed CORS origins:", allowedOrigins);
-
+// ✅ Middlewares
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, Postman, curl)
-    if (!origin) {
-      console.log("✅ Allowing request with no origin");
-      return callback(null, true);
-    }
-    
-    if (allowedOrigins.includes(origin)) {
-      console.log(`✅ Allowing origin: ${origin}`);
-      return callback(null, true);
-    }
-    
-    console.log(`❌ Rejecting origin: ${origin}`);
-    console.log(`❌ Allowed origins: ${allowedOrigins.join(", ")}`);
-    
-    // In development, allow all origins (less secure but helpful for debugging)
-    if (process.env.NODE_ENV === 'development') {
-      console.log("🔧 Development mode: allowing all origins");
-      return callback(null, true);
-    }
-    
-    callback(new Error('Not allowed by CORS'), false);
-  },
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: [
-    'Origin',
-    'X-Requested-With',
-    'Content-Type',
-    'Accept',
-    'Authorization',
-    'Cache-Control',
-    'Pragma',
-    'Access-Control-Allow-Origin'
-  ],
-  optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
+  origin: process.env.CLIENT_ORIGIN?.split(",") || ["http://localhost:3000", "http://localhost:5173"],
+  credentials: true
 }));
-
-// 🔥 ADDITIONAL CORS MIDDLEWARE - RENDER.COM SPECIFIC FIX
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
-  
-  // Log all requests for debugging
-  console.log(`📥 ${req.method} ${req.url} from origin: ${origin || 'no-origin'}`);
-  
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-  }
-  
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control, Pragma');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  
-  // Handle preflight OPTIONS requests
-  if (req.method === 'OPTIONS') {
-    console.log(`✅ Handling OPTIONS preflight for ${req.url}`);
-    res.status(200).end();
-    return;
-  }
-  
-  next();
-});
-
 app.use(express.json());
 app.use(morgan("dev"));
 
 // ✅ DB Connection
 connectDB();
 
-// ✅ Health check with more info
-app.get("/", (_req, res) => {
-  const healthData = {
-    ok: true, 
-    service: "smartboard-booking",
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development',
-    cors_origins: allowedOrigins,
-    version: "1.0.0"
-  };
-  
-  console.log("🏥 Health check requested:", healthData);
-  res.json(healthData);
-});
+// ✅ Health check
+app.get("/", (_req, res) => res.json({ 
+  ok: true, 
+  service: "smartboard-booking",
+  timestamp: new Date().toISOString()
+}));
 
 // ✅ API Routes
 app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/admin", adminRoutes);  // Moved admin routes before auth routes
 app.use("/api/classrooms", classroomRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/faculties", facultyRoutes);
-app.use('/api/auth', passwordResetRoutes);
-app.use("/api/email", emailTestRoute);
+app.use('/api/auth', passwordResetRoutes);  // This might cause conflicts - consider separating
+app.use("/api/email", emailTestRoute);  // Changed from "/api" to "/api/email"
 
-// ✅ Dashboard stats endpoint
+// ✅ Dashboard stats endpoint - ADD THIS
 app.get("/api/dashboard/stats", async (req, res) => {
   try {
-    console.log("📊 Dashboard stats requested");
-    
     // Import models dynamically to avoid circular imports
     const { default: Classroom } = await import("./models/Classroom.js");
     const { default: Booking } = await import("./models/Booking.js");
@@ -137,19 +56,16 @@ app.get("/api/dashboard/stats", async (req, res) => {
       Faculty.countDocuments()
     ]);
 
-    const statsData = {
+    res.json({
       success: true,
       data: {
         classrooms: classroomCount,
         bookings: bookingCount,
         facultyMembers: facultyCount
       }
-    };
-    
-    console.log("📊 Dashboard stats response:", statsData);
-    res.json(statsData);
+    });
   } catch (error) {
-    console.error("❌ Dashboard stats error:", error);
+    console.error("Dashboard stats error:", error);
     res.status(500).json({
       success: false,
       message: "Failed to fetch dashboard statistics",
@@ -158,43 +74,32 @@ app.get("/api/dashboard/stats", async (req, res) => {
   }
 });
 
-// ✅ System status endpoint
+// ✅ System status endpoint - ADD THIS
 app.get("/api/system/status", (req, res) => {
-  const statusData = {
+  res.json({
     success: true,
     data: {
       database: "Connected",
       api: "Responding",
-      features: "Limited admin features",
-      cors: "Enabled",
-      environment: process.env.NODE_ENV || 'development'
+      features: "Limited admin features"
     }
-  };
-  
-  console.log("⚙️ System status requested:", statusData);
-  res.json(statusData);
+  });
 });
 
 // ✅ 404 handler with better error message
 app.use((req, res) => {
-  console.log(`❌ 404 - Route not found: ${req.method} ${req.originalUrl} from origin: ${req.headers.origin}`);
+  console.log(`404 - Route not found: ${req.method} ${req.originalUrl}`);
   res.status(404).json({ 
     error: "Route not found",
     method: req.method,
     url: req.originalUrl,
-    message: `The requested endpoint ${req.method} ${req.originalUrl} does not exist`,
-    available_endpoints: [
-      "GET /",
-      "POST /api/auth/login",
-      "GET /api/dashboard/stats",
-      "GET /api/system/status"
-    ]
+    message: `The requested endpoint ${req.method} ${req.originalUrl} does not exist`
   });
 });
 
 // ✅ Global error handler
 app.use((err, req, res, next) => {
-  console.error("❌ Server Error:", err);
+  console.error("Server Error:", err);
   res.status(err.status || 500).json({ 
     error: err.message || "Internal server error",
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
@@ -203,13 +108,10 @@ app.use((err, req, res, next) => {
 
 // ✅ Start server
 const port = process.env.PORT || 5000;
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, () => {
   console.log(`🚀 API running on port ${port}`);
-  console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔗 Health check: http://localhost:${port}/`);
-  console.log(`📊 Dashboard: http://localhost:${port}/api/dashboard/stats`);
-  console.log(`🌐 Allowed CORS origins:`, allowedOrigins);
-  console.log(`📝 Available routes:`);
+  console.log(`📊 Dashboard: http://localhost:${port}`);
+  console.log(`🔗 Available routes:`);
   console.log(`   GET  / - Health check`);
   console.log(`   POST /api/auth/login - Authentication`);
   console.log(`   GET  /api/admin - Admin management`);

@@ -1,12 +1,11 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: import.meta.env.VITE_API_URL || "https://backend-vlz6.onrender.com",
 });
 
-const API_URL = import.meta.env.VITE_API_URL;
-
 export async function fetchData() {
+  const API_URL = import.meta.env.VITE_API_URL || "https://backend-vlz6.onrender.com";
   const response = await fetch(`${API_URL}/api/data`);
   return response.json();
 }

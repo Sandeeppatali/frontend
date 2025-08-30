@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import api from "../api";
 
-// const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
-// useEffect(() => {
-//   fetch(`${API_URL}/api/bookings`)
-//     .then(res => res.json())
-//     .then(data => setBookings(data));
-// }, []);
+useEffect(() => {
+  fetch(`${API_URL}/api/bookings`)
+    .then(res => res.json())
+    .then(data => setBookings(data));
+}, []);
 
 export default function AdminDashboard() {
   const [allRooms, setAllRooms] = useState([]);

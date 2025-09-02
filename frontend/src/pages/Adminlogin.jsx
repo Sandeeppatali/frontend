@@ -23,7 +23,7 @@ const AdminLogin = () => {
 
     try {
       // Make sure to use the admin login endpoint
-      const response = await axios.post('http://localhost:5000/api/admin/login', {
+      const response = await axios.post('https://backend-smartboard.onrender.com/api/admin/login', {
         email: formData.email,
         password: formData.password
       });

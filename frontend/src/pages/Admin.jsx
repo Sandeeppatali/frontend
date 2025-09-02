@@ -13,7 +13,7 @@ const Admin = () => {
   const fetchAdmins = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/admin');
+      const response = await axios.get('https://backend-smartboard.onrender.com/api/admin');
       
       if (response.data.success) {
         setAdmins(response.data.data);

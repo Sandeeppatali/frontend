@@ -15,21 +15,12 @@ dotenv.config();
 const app = express();
 
 // ✅ Middlewares
-const allowedOrigins = [
-  "https://smartboard-booking.vercel.app",
-  "https://frontend-okbf.vercel.app",
-  "http://localhost:3000",
-  "http://localhost:5173"
-];
-
 app.use(cors({
-  origin: allowedOrigins,
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: process.env.CLIENT_ORIGIN?.split(",") || ["http://localhost:3000", "http://localhost:5173"],
   credentials: true
 }));
 app.use(express.json());
 app.use(morgan("dev"));
-
 
 
 // ✅ DB Connection
